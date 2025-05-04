@@ -22,3 +22,14 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+rails db:setup 
+
+rails db:migrate
+
+rails db:seed
+
+bin/rake "user:generate_rewards[test@test.com]"
+
+bin/rake "user:generate_earned_points[test@test.com]"

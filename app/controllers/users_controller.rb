@@ -1,70 +1,44 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
+  skip_before_action :authenticate_request, only: [ :signup, :signin ]
 
-  # GET /users or /users.json
-  def index
-    @users = User.all
-  end
-
-  # GET /users/1 or /users/1.json
-  def show
-  end
-
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
-  # GET /users/1/edit
-  def edit
-  end
-
-  # POST /users or /users.json
-  def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to @user, notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+  def signup
+    user = User.new(user_params)
+    if user.save
+      token = jwt_encode(user_id: user.id)
+      render json: { token: token, user: user.as_json(except: :password_digest) }, status: :created
+    else
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /users/1 or /users/1.json
-  def update
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+  def signin
+    user = User.find_by(email: params[:email].downcase)
+    if user&.authenticate(params[:password])
+      token = jwt_encode(user_id: user.id)
+      render json: { token: token, user: user.as_json(except: :password_digest) }
+    else
+      render json: { error: "Invalid email or password" }, status: :unauthorized
     end
   end
 
-  # DELETE /users/1 or /users/1.json
-  def destroy
-    @user.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to users_path, status: :see_other, notice: "User was successfully destroyed." }
-      format.json { head :no_content }
-    end
+  def get_user_details
+    render json: {
+       name: @current_user.name,
+       points_balance: @current_user.point_balance,
+       points_accumulated: @current_user.all_points,
+       points_redeemed: @current_user.points_used,
+       redemption_history: @current_user.serialized_redemptions(5),
+       rewards: @current_user.serialized_rewards(5),
+       earned_points: @current_user.serialized_earned_point(5),
+       tier: @current_user.tier,
+       point_to_next_tier: @current_user.point_to_next_tier,
+       next_tier: @current_user.next_tier
+    }, status: :ok
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def user_params
-      params.fetch(:user, {})
-    end
+  def user_params
+    params.require(:user).permit(:name, :email, :password)
+  end
 end
