@@ -61,6 +61,11 @@ A Ruby on Rails application for managing user rewards, points, and redemptions.
 - reward_id (reference)
 - timestamps
 
+## Setup with Docker (recommended)
+prerequisite: install docker on your machine.
+
+`docker-compose build && docker-compose up`
+
 ## Setup(local)
 
 1. Clone the repository
@@ -93,6 +98,10 @@ A Ruby on Rails application for managing user rewards, points, and redemptions.
   
 
 ## Testing
+
+For demo purpose i only created unit tests for users model.
+
+`rails test test/models/user_test.rb` => make sure you setup the local db for testing.
 
 The application includes comprehensive test coverage for:
 - User validations and authentication
