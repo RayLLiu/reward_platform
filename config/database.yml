@@ -15,7 +15,7 @@ development:
 
 test:
   <<: *default
-  database: farmer_test
+  database: reward_platform_test
   username: <%= ENV['POSTGRES_USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] %>
 
