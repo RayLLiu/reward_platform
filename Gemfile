@@ -67,7 +67,7 @@ end
 
 gem "jwt"
 
-gem "rack-cors", "~> 2.0"
+gem "rack-cors", "~> 3.0"
 
 gem "byebug", "~> 12.0", groups: [ :development, :test ]
 
