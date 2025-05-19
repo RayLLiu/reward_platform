@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 92be9af152f721588b7414119c931ea92930947b
+  revision: c25c1c1c2175d170e1f7759e72b44bc981201601
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -34,6 +34,7 @@ GIT
       rails-html-sanitizer (~> 1.6)
       useragent (~> 0.16)
     actiontext (8.1.0.alpha)
+      action_text-trix (~> 2.1.15)
       actionpack (= 8.1.0.alpha)
       activerecord (= 8.1.0.alpha)
       activestorage (= 8.1.0.alpha)
@@ -100,6 +101,8 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    action_text-trix (2.1.15)
+      railties
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.3)
@@ -176,7 +179,7 @@ GEM
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
     logger (1.7.0)
-    loofah (2.24.0)
+    loofah (2.24.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -233,7 +236,7 @@ GEM
       activesupport (>= 7.0.0)
       rack
       railties (>= 7.0.0)
-    psych (5.2.4)
+    psych (5.2.6)
       date
       stringio
     public_suffix (6.0.2)
@@ -241,10 +244,10 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.13)
+    rack (3.1.15)
     rack-cors (2.0.2)
       rack (>= 2.0.0)
-    rack-session (2.1.0)
+    rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
     rack-test (2.2.0)
